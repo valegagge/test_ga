@@ -65,22 +65,13 @@ jobs:
              fi
       - name: check true
         id: debug_check_true
-        run: | 
-             if [[ 'false' ]]
-             then
-              echo "the version ${{ steps.get_version.outputs.version }} exist" 
-             else
-              echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
-             fi
+        if:  ${{ 'false' }}
+        run: echo "false step" 
       - name: check true2
         id: debug_check_true2
-        run: | 
-             if [[ false ]]
-             then
-              echo "the version ${{ steps.get_version.outputs.version }} exist" 
-             else
-              echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
-             fi
+        if:  ${{ 'true' }}
+        run: echo "true step" 
+             
       - name: Create Release
         id: create_release
         if:  ${{ ! steps.check_tag.outputs.exists }}
