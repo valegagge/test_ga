@@ -66,7 +66,7 @@ jobs:
       - name: check true
         id: debug_check_true
         run: | 
-             if [[ 'true' ]]
+             if [[ 'false' ]]
              then
               echo "the version ${{ steps.get_version.outputs.version }} exist" 
              else
@@ -75,7 +75,7 @@ jobs:
       - name: check true2
         id: debug_check_true2
         run: | 
-             if [[ true ]]
+             if [[ false ]]
              then
               echo "the version ${{ steps.get_version.outputs.version }} exist" 
              else
