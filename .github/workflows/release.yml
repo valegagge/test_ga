@@ -63,6 +63,24 @@ jobs:
              else
               echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
              fi
+      - name: check true
+        id: debug_check_true
+        run: | 
+             if [[ 'true' ]]
+             then
+              echo "the version ${{ steps.get_version.outputs.version }} exist" 
+             else
+              echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
+             fi
+      - name: check true2
+        id: debug_check_true2
+        run: | 
+             if [[ true ]]
+             then
+              echo "the version ${{ steps.get_version.outputs.version }} exist" 
+             else
+              echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
+             fi
       - name: Create Release
         id: create_release
         if:  ${{ ! steps.check_tag.outputs.exists }}
