@@ -44,6 +44,34 @@ jobs:
              else
               echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
              fi
+             
+      - name: degug check tag 2
+        id: debug_check_tag2 
+        run: | 
+             if [[ ${{ steps.check_tag.outputs.exists=='true' }} ]]
+             then
+              echo "the version ${{ steps.get_version.outputs.version }} exist" 
+             else
+              echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
+             fi
+      - name: degug check tag 3
+        id: debug_check_tag3
+        run: | 
+             if [[ ${{ steps.check_tag.outputs.exists==true }} ]]
+             then
+              echo "the version ${{ steps.get_version.outputs.version }} exist" 
+             else
+              echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
+             fi
+      - name: degug check tag 4
+        id: debug_check_tag4
+        run: | 
+             if [[ ${{ steps.check_tag.outputs.exists=="true" }} ]]
+             then
+              echo "the version ${{ steps.get_version.outputs.version }} exist" 
+             else
+              echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
+             fi
       - name: Create Release
         id: create_release
         if:  ${{ ! steps.check_tag.outputs.exists }}
