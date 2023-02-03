@@ -1,0 +1,59 @@
+name: Release
+
+on:
+    repository_dispatch:
+        types: [release_trigger]
+    
+    workflow_dispatch:
+      inputs:
+        version:
+          description: 'version of superbuild'
+          required: true
+          default: 'v2022.x.y'
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Get Version
+        id: get_version
+        run: | 
+             if [[ "${{github.event_name}}" == "repository_dispatch" ]]
+             then
+              echo "version=${{ github.event.client_payload.version }}" >> $GITHUB_OUTPUT 
+             else
+              echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT 
+             fi
+      - name: Debug
+        id: debug
+        run : echo "my version is ${{ steps.get_version.outputs.version }}"
+      - name: Check Tag
+        id: check_tag
+        uses: mukunku/tag-exists-action@v1.2.0
+        with: 
+          tag: ${{ steps.get_version.outputs.version }}
+      - name: degug check tag
+        id: debug_check_tag 
+        run: | 
+             if [[ ${{ steps.check_tag.outputs.exists }} ]]
+             then
+              echo "the version ${{ steps.get_version.outputs.version }} exist" 
+             else
+              echo "the version ${{ steps.get_version.outputs.version }} NOT exist" 
+             fi
+      - name: Create Release
+        id: create_release
+        if:  ${{ ! steps.check_tag.outputs.exists }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name:  ${{ steps.get_version.outputs.version }}
+          release_name: testGA  ${{ steps.get_version.outputs.version }}
+          body: |
+            Release  ${{ steps.get_version.outputs.version }}
+          draft: false
+          prerelease: false
