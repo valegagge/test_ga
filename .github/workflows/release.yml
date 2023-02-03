@@ -57,7 +57,7 @@ jobs:
       - name: degug check tag 3
         id: debug_check_tag3
         run: | 
-             if [[ 'pippo' ==  "${{github.event_name}}"]]
+             if [[ "pippo" ==  "${{github.event_name}}"]]
              then
               echo "the version ${{ steps.get_version.outputs.version }} exist" 
              else
