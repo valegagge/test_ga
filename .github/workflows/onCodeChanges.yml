@@ -790,7 +790,7 @@ jobs:
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.GITHUB_TOKEN  }}
-            repository: {{ env.IMAGE_NAME }}
+            repository: valegagge/test_ga
             event-type: cron_trigger
             client-payload: '{"type": "cron_trigger", "img_list": "${{ needs.check_files.outputs.children_matrix }}"}'
 
