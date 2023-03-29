@@ -300,7 +300,7 @@ jobs:
         - uses: oprypin/find-latest-tag@v1
           if: matrix.version == 'release'
           with:
-            repository: ${{ env.IMAGE_NAME }}
+            repository: valegagge/test_ga
             releases-only: true  
           id: release-version
 
