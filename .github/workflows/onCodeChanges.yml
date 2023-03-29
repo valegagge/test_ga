@@ -780,7 +780,7 @@ jobs:
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.GITHUB_TOKEN  }}
-            repository: {{ env.IMAGE_NAME }}
+            repository: valegagge/test_ga
             event-type: repository_trigger
             client-payload: '{"version": "${{ github.event.client_payload.version }}", "type": "repository_trigger", "img_list": "${{ needs.check_files.outputs.children_matrix }}"}'
             
