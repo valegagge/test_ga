@@ -11,6 +11,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  REPOSITORY_NAME: ${{ github.repository }}
+  REPOSITORY_OWNER: ${{ github.repository_owner }}
 
 jobs:
     debug:
@@ -24,6 +26,12 @@ jobs:
       - id: get_version
         run: |
           echo "I received the version: ${{ github.event.client_payload.version }}"
+      - id: get_env
+        run: |
+          echo "github.repository : ${{ github.repository }}"
+          echo "github.repository ENV : ${{ env.REPOSITORY_NAME }}"
+          echo "github.repository_owner : ${{ github.repository_owner }}"
+          echo "github.github.repository_owner ENV : ${{ env.REPOSITORY_OWNER }}"
 
       
 
