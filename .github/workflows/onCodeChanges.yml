@@ -502,22 +502,22 @@ jobs:
         - name: Build Docker sources images
           id: build-sources
           if: steps.get_args.outputs.CMPL_SRC == 'true'
-          run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ steps.get_args.outputs.TAG_ARGS }}_sources" 
+          run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ github.repository_owner }}/${{ steps.get_args.outputs.TAG_ARGS }}_sources" 
 
 	- name: tag source images for Dockerhub
-          id: tag-sources_dockerhub
+          id: tag-sources-dockerhub
           if: steps.get_args.outputs.CMPL_SRC == 'true'
-          run: docker tag ${{ steps.get_args.outputs.IMG_NAME }}_sources" ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.get_args.outputs.IMG_NAME }}_sources"
+          run: docker tag ${{ github.repository_owner }}/${{ steps.get_args.outputs.IMG_NAME }}_sources" ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.get_args.outputs.IMG_NAME }}_sources"
 
         - name: Push Docker source images
-          id: push-sources
+          id: push-sources-dockerhub
           if: steps.get_args.outputs.CMPL_SRC == 'true'
           run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.get_args.outputs.IMG_NAME }}_sources" 
 
         - name: tag source images for Ghcr.io
-          id: tag-sources
+          id: tag-sources-ghcr
           if: steps.get_args.outputs.CMPL_SRC == 'true'
-          run: docker tag ${{ steps.get_args.outputs.IMG_NAME }}_sources" ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ steps.get_args.outputs.IMG_NAME }}_sources"
+          run: docker tag ${{ github.repository_owner }}/${{ steps.get_args.outputs.IMG_NAME }}_sources" ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ steps.get_args.outputs.IMG_NAME }}_sources"
 
         - name: Push Docker source images to Ghcr.io
           id: push-sources-ghcr
@@ -527,19 +527,29 @@ jobs:
         - name: Build Docker binaries images
           id: build-binaries
           if: steps.get_args.outputs.CMPL_BIN == 'true'
-          run: docker build  ${{ steps.get_args.outputs.BIN_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile4Production ${{ steps.get_args.outputs.TAG_ARGS }}_binaries" 
+          run: docker build  ${{ steps.get_args.outputs.BIN_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile4Production ${{ github.repository_owner }}/${{ steps.get_args.outputs.TAG_ARGS }}_binaries" 
 
        - name: tag binary images for Dockerhub
-          id: tag-binary_dockerhub
+          id: tag-binary-dockerhub
           if: steps.get_args.outputs.CMPL_BIN == 'true'
-          run: docker tag ${{ steps.get_args.outputs.IMG_NAME }}_binaries" ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.get_args.outputs.IMG_NAME }}_binaries"
+          run: docker tag ${{ github.repository_owner }}/${{ steps.get_args.outputs.IMG_NAME }}_binaries" ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.get_args.outputs.IMG_NAME }}_binaries"
 
        - name: Push Docker binaries images
-          id: push-binaries
+          id: push-binaries-dockerhub
           if: steps.get_args.outputs.CMPL_BIN == 'true'
           run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.get_args.outputs.IMG_NAME }}_binaries"
 
-        # - name: Trigger testing pipeline for source image
+       - name: tag binaries images for Ghcr.io
+          id: tag-binaries-ghcr
+          if: steps.get_args.outputs.CMPL_BIN == 'true'
+          run: docker tag ${{ github.repository_owner }}/${{ steps.get_args.outputs.IMG_NAME }}_binaries" ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ steps.get_args.outputs.IMG_NAME }}_binaries"
+
+        - name: Push Docker binaries images to Ghcr.io
+          id: push-binaries-ghcr
+          if: steps.get_args.outputs.CMPL_BIN == 'true'
+          run: docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ steps.get_args.outputs.IMG_NAME }}_binaries"
+
+       # - name: Trigger testing pipeline for source image
         #   if: steps.build-sources.outcome == 'success' && steps.push-sources.outcome == 'success' && steps.get_args.outputs.demos_flag_output == 'true' && ! cancelled()
         #   uses: peter-evans/repository-dispatch@v1
         #   with:
