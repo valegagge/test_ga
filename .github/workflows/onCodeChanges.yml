@@ -503,7 +503,6 @@ jobs:
           id: build-sources
           if: steps.get_args.outputs.CMPL_SRC == 'true'
           run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ steps.get_args.outputs.TAG_ARGS }}_sources" 
-
 	- name: tag source images for Dockerhub
           id: tag-sources-dockerhub
           if: steps.get_args.outputs.CMPL_SRC == 'true'
