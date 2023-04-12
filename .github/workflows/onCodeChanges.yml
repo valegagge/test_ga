@@ -502,7 +502,7 @@ jobs:
         - name: Build Docker sources images
           id: build-sources
           if: steps.get_args.outputs.CMPL_SRC == 'true'
-          run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ github.repository_owner }}/${{ steps.get_args.outputs.TAG_ARGS }}_sources" 
+          run: docker build ${{ steps.get_args.outputs.SRC_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile ${{ steps.get_args.outputs.TAG_ARGS }}_sources" 
 
 	- name: tag source images for Dockerhub
           id: tag-sources-dockerhub
@@ -527,7 +527,7 @@ jobs:
         - name: Build Docker binaries images
           id: build-binaries
           if: steps.get_args.outputs.CMPL_BIN == 'true'
-          run: docker build  ${{ steps.get_args.outputs.BIN_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile4Production ${{ github.repository_owner }}/${{ steps.get_args.outputs.TAG_ARGS }}_binaries" 
+          run: docker build  ${{ steps.get_args.outputs.BIN_ARGS }} --no-cache ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}} --file ${{ steps.get_path.outputs.PATH }}/${{matrix.apps}}/Dockerfile4Production ${{ steps.get_args.outputs.TAG_ARGS }}_binaries" 
 
        - name: tag binary images for Dockerhub
           id: tag-binary-dockerhub
