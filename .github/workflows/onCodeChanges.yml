@@ -473,7 +473,8 @@ jobs:
                 if [[ $tag_flag != false ]] 
                 then
                     tag_arg="--tag \"$line"
-                    img_name="\"$line"
+                    img_name="$line"
+		     echo "THe image name is $img_name"
                 fi
                 if [[ $tag_github_flag != false ]] 
                 then
